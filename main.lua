@@ -7,7 +7,7 @@ screenGui.Parent = player.PlayerGui
 local mainFrame = Instance.new("Frame")
 mainFrame.Size = UDim2.new(0.3, 0, 0.5, 0)
 mainFrame.Position = UDim2.new(0.35, 0, 0.25, 0)
-mainFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30) -- Dark background
 mainFrame.Parent = screenGui
 
 -- Add UICorner to main frame
@@ -19,7 +19,7 @@ mainFrameCorner.Parent = mainFrame
 local titleFrame = Instance.new("Frame")
 titleFrame.Size = UDim2.new(1, 0, 0.1, 0)
 titleFrame.Position = UDim2.new(0, 0, 0, 0)
-titleFrame.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+titleFrame.BackgroundColor3 = Color3.fromRGB(0, 60, 100) -- Dark blue background
 titleFrame.Parent = mainFrame
 
 -- Add UICorner to title frame
@@ -30,9 +30,9 @@ titleFrameCorner.Parent = titleFrame
 -- Create Title Label
 local titleLabel = Instance.new("TextLabel")
 titleLabel.Size = UDim2.new(1, 0, 1, 0)
-titleLabel.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+titleLabel.BackgroundColor3 = Color3.fromRGB(0, 60, 100)
 titleLabel.Text = "Restrain GUI"
-titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255) -- White text
 titleLabel.TextSize = 18
 titleLabel.TextStrokeTransparency = 0.5
 titleLabel.TextWrapped = true
@@ -43,6 +43,8 @@ local playerTextBox = Instance.new("TextBox")
 playerTextBox.Size = UDim2.new(1, -20, 0.2, -20)
 playerTextBox.Position = UDim2.new(0, 10, 0.1, 10)
 playerTextBox.PlaceholderText = "Enter player name"
+playerTextBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50) -- Dark gray background
+playerTextBox.TextColor3 = Color3.fromRGB(255, 255, 255) -- White text
 playerTextBox.Parent = mainFrame
 
 -- Add UICorner to TextBox
@@ -55,6 +57,8 @@ local restraintDropdown = Instance.new("TextButton")
 restraintDropdown.Size = UDim2.new(1, -20, 0.2, -20)
 restraintDropdown.Position = UDim2.new(0, 10, 0.35, 10)
 restraintDropdown.Text = "Select Restraint"
+restraintDropdown.BackgroundColor3 = Color3.fromRGB(50, 50, 50) -- Dark gray background
+restraintDropdown.TextColor3 = Color3.fromRGB(255, 255, 255) -- White text
 restraintDropdown.Parent = mainFrame
 
 -- Add UICorner to dropdown
@@ -67,6 +71,8 @@ local applyButton = Instance.new("TextButton")
 applyButton.Size = UDim2.new(1, -20, 0.2, -20)
 applyButton.Position = UDim2.new(0, 10, 0.6, 10)
 applyButton.Text = "Apply Restraint"
+applyButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70) -- Slightly lighter gray
+applyButton.TextColor3 = Color3.fromRGB(255, 255, 255) -- White text
 applyButton.Parent = mainFrame
 
 -- Add UICorner to Apply button
@@ -79,6 +85,8 @@ local unapplyButton = Instance.new("TextButton")
 unapplyButton.Size = UDim2.new(1, -20, 0.2, -20)
 unapplyButton.Position = UDim2.new(0, 10, 0.85, 10)
 unapplyButton.Text = "Remove Restraint"
+unapplyButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70) -- Slightly lighter gray
+unapplyButton.TextColor3 = Color3.fromRGB(255, 255, 255) -- White text
 unapplyButton.Parent = mainFrame
 
 -- Add UICorner to Unapply button
@@ -197,39 +205,3 @@ restraintDropdown.MouseButton1Click:Connect(function()
         restraintDropdown.Text = "Select Restraint"
     end
 end)
-
--- Make GUI draggable
-local dragging
-local dragInput
-local dragStart
-local startPos
-
-local function updateInput(input)
-    local delta = input.Position - dragStart
-    mainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-end
-
-titleFrame.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = true
-        dragStart = input.Position
-        startPos = mainFrame.Position
-        input.Changed:Connect(function()
-            if input.UserInputState == Enum.UserInputState.End then
-                dragging = false
-            end
-        end)
-    end
-end)
-
-titleFrame.InputChanged:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseMovement then
-        dragInput = input
-    end
-end)
-
-game:GetService("UserInputService").InputChanged:Connect(function(input)
-    if input == dragInput and dragging then
-        updateInput(input)
-    end
-  end)
